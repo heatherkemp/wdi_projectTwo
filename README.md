@@ -2,4 +2,20 @@
 
 ##Objective
 
-##Minimum Viable Product
+
+##User Stories
+
+
+##Front-End Wireframes
+
+
+
+##Pseudocode
+
+
+
+##Routes
+
+
+
+##Database Design
