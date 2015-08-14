@@ -42,14 +42,14 @@ app.get('/', function(req, res){
                 dbData.forEach(function(topic){
                     var id = topic.id;
                     
-                        db.get('SELECT COUNT(comment),topics.title, topics.username, topics.post_date, topics.hi_fives FROM comments INNER JOIN topics ON comments.topic_id = topics.id WHERE comments.topic_id=?', id, function(err, row){
+                        db.get('SELECT COUNT(comment),topics.id, topics.title, topics.username, topics.post_date, topics.hi_fives FROM comments INNER JOIN topics ON comments.topic_id = topics.id WHERE comments.topic_id=?', id, function(err, row){
                             if (err){
                                 console.log(err);
 
                             } else {
                                 newData.push(row);
                                 //console.log(newData);
-                                
+
                                 //adds a conditional to prevent rendered from running until the iteration is done.
                                 if (newData.length === dbData.length){
                                 var rendered = ejs.render(html, {newData: newData});
