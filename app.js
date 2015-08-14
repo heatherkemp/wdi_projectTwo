@@ -41,12 +41,14 @@ app.get('/', function(req, res){
             
                 dbData.forEach(function(topic){
                     var id = topic.id;
+                    console.log(id);
                     
-                        db.get('SELECT COUNT(comment),topics.id, topics.title, topics.username, topics.post_date, topics.hi_fives FROM comments INNER JOIN topics ON comments.topic_id = topics.id WHERE comments.topic_id=?', id, function(err, row){
+                        db.get('SELECT topics.id, topics.title, topics.username, topics.post_date, topics.hi_fives, COUNT(comment) FROM comments INNER JOIN topics ON comments.topic_id = topics.id WHERE comments.topic_id=?', id, function(err, row){
                             if (err){
                                 console.log(err);
 
                             } else {
+                                console.log(row);
                                 newData.push(row);
                                 //console.log(newData);
 

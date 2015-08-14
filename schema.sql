@@ -25,6 +25,3 @@ SELECT count(comments.id), topics.title FROM comments INNER JOIN topics ON comme
 
 SELECT count(comment), topics.title, topics.username, topics.post_date, topics.hi_fives FROM comments INNER JOIN topics ON comments.topic_id = topics.id WHERE comments.topic_id='1';
 
-
-
-<%= topic['count(comment)'] %>

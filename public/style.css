@@ -41,11 +41,7 @@ h1, h2, h3, h4, h5, p {
     width: 200px;
 }
 
-#headerModal {
-    padding: 0px 15px;
-}
-
-#newTopicButton {
+#newTopicButton, #backToMainMenu {
     font-family: 'Josefin Sans', sans-serif;
     width: 55%;
     color: teal;
@@ -56,9 +52,13 @@ h1, h2, h3, h4, h5, p {
     margin: 20px 22%;
 }
 
+#newTopicButton:hover, #backToMainMenu:hover {
+    opacity: .80;
+}
+
 .pure-button {
-    padding: .80em 1.2em;
-    background-color: white;
+    //padding: .80em 1.2em;
+    //background-color: white;
 }
 
 /* Modal */
@@ -71,6 +71,7 @@ h1, h2, h3, h4, h5, p {
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.5);
+    z-index: 999;
 }
 
 .modalContent{
@@ -79,8 +80,8 @@ h1, h2, h3, h4, h5, p {
     background-color: #fff;
     top: 100px;
     width: 90%;
-    height: 40%;
-    border-radius: 5px;
+    height: 50%;
+    //border-radius: 5px;
 }
 
 .modalHeader{
@@ -90,26 +91,38 @@ h1, h2, h3, h4, h5, p {
     top: 10px; 
 }
 
+#headerModal {
+    line-height: 1.15em;
+    padding: 0px 15px;
+}
+
 .modalBody{
     position: absolute;
     width: 100%;
-    top: 60px;
+    top: 80px;
     background-color: #fff;
     border-top: 2px solid teal;
 }
 
 #closeModal {
     position: absolute;
-    top: -4px;
-    left: 90%;
-    //background-color: teal;
+    top: -5px;
+    left: 89%;
     color: teal;
     background: none;
 
 }
 
+#modalForm{
+    margin-top: 0px;
+}
+
 .small-button {
     padding: 6px 12px;
+}
+
+#username {
+    margin: 10px 0px 25px;
 }
 
 #topicTitle{
@@ -196,7 +209,7 @@ label {
 
 }
 
-@media only screen and (min-width: 480px) {
+@media only screen and (min-width: 480px) and (max-width: 767px) {
 
 #closeModal {
     position: absolute;
@@ -205,6 +218,10 @@ label {
     background-color: teal;
     color: white;
     }
+
+ .modalContent {
+    height: 40%;
+ }   
 }
 
 @media only screen and (min-width: 768px) and (max-width: 959px) {
@@ -221,6 +238,18 @@ label {
     }
 }
 
+.modalContent {
+    width: 75%;
+    height: 35%;
+}
+
+#closeModal {
+    top: 10px;
+    //left: 90%;
+    background-color: teal;
+    color: white;
+}
+
 @media only screen and (min-width: 960px) {
 
 #newTopicButton {
@@ -231,47 +260,24 @@ label {
 /* Modal for Desktop size */
 
 .modalContent{
-    position: relative;
-    margin: 0 auto;
-    background-color: #fff;
-    top: 100px;
-    width: 60%;
+    width: 55%;
     height: 40%;
-    border-radius: 5px;
+    top: 150px;
 }
 
 .modalHeader{
-    position: absolute;
-    background-color: #fff;
-    width: 100%; 
-    top: 10px;   
-}
-
-.modalBody{
-    position: absolute;
-    width: 100%;
-    top: 50px;
-    background-color: #fff;
-    border-top: 2px solid teal;
+    //position: absolute;
+    //background-color: #fff;
+    //width: 100%; 
+    //top: 10px;   
 }
 
 #closeModal {
-    position: absolute;
-    top: 10px;
-    left: 90%;
+    left: 92%;
     background-color: teal;
     color: white;
 }
-
-.small-button {
-    padding: 6px 12px;
-}
-
-#topicTitle{
-    width: 98%;
-    margin: 10px 0;
-}
-
+/*
 input, label {
     display: block;
     font-family: 'Josefin Sans', sans-serif;
@@ -286,6 +292,6 @@ label {
     background-color: teal;
     color: white;
     margin: 20px;
-}
+} */
 
 }
