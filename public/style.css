@@ -18,7 +18,7 @@ body {
     background-repeat: repeat-x;
 }
 
-h1, h2, h3, h4, h5 {
+h1, h2, h3, h4, h5, p {
     font-family: 'Josefin Sans', sans-serif;
     font-weight: 300;
 }
@@ -30,7 +30,7 @@ h1, h2, h3, h4, h5 {
 }
 
 #header {
-    height: 180px;
+    min-height: 180px;
     padding: 10px 20px;
    
 }
@@ -47,9 +47,13 @@ h1, h2, h3, h4, h5 {
 
 #newTopicButton {
     font-family: 'Josefin Sans', sans-serif;
-    width: 200px;
+    width: 55%;
     color: teal;
-    margin: 0 auto;
+    padding: .80em 1.2em;
+    background-color: white;
+    border: none;
+    border-radius: 3px;
+    margin: 20px 22%;
 }
 
 .pure-button {
@@ -131,7 +135,8 @@ label {
 
 /* Topic Index on Homepage */
 .cardContainer {
- margin: 50px auto;
+    width: 85%;
+    margin: 10px auto;
 }
 
 .cardLink:link {
@@ -144,19 +149,51 @@ label {
 }
 
 .topicCard {
-    width: 280px;
-    min-height: 140px;
+    //width: 280px;
+    position: relative;
+    min-height: 150px;
     background: white;
-    padding: 10px;
-    margin: 15px 10px;
+    //padding: 10px;
+    margin: 15px auto;
     -webkit-box-shadow: 0px 5px 14px 5px rgba(50, 50, 50, 0.70);
     -moz-box-shadow:    0px 5px 14px 5px rgba(50, 50, 50, 0.70);
     box-shadow:         0px 5px 14px 5px rgba(50, 50, 50, 0.70);
 }
 
+.content {
+    padding: 10px 15px;
+}
+
 .stats{
-    position: relative;
-    top: 30px;
+    position: absolute;
+    bottom: 20px;
+}
+
+#hiFivesCount{
+    margin-right: 15px;
+}
+
+
+/* Card View Page show.html */
+
+.cardView {
+    background: white;
+    padding: 25px;
+}
+
+#submitComment {
+    font-family: 'Josefin Sans', sans-serif;
+    background-color: teal;
+    color: white;
+    border-radius: 3px;
+}
+
+#authorInfo{
+
+}
+
+#theComments {
+
 }
 
 @media only screen and (min-width: 480px) {

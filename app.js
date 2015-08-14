@@ -25,23 +25,40 @@ app.get('/', function(req, res){
     var html = fs.readFileSync('./views/index.html', 'utf8');
     //When a user clicks Create New Topic Button, a modal pops up which
     //they can enter their username and a topic title.
-
-    db.all('SELECT * FROM topics', function(err, rows){
+    
+    db.all('SELECT * FROM topics ORDER BY hi_fives DESC', function(err, rows){
+         //As new topics are created, they will be shown on the main index page.
+         //Loop through rows in ejs template and output, sort the cards by Hi-Five count highest to lowest
         if (err){
             console.log(err);
 
         } else {
-            //console.log(rows);
+            
             var dbData = rows;
-            //As new topics are created, they will be shown on the main index page.
-            //Loop through rows in ejs template and output
-            var rendered = ejs.render(html, {dbData: dbData});
-            res.send(rendered);
-            //Sort the cards by Hi-Five count highest to lowest
-            //may need to join topics table and comments table to get Hi-Five count
-        }
-    });
-    
+            //console.log(dbData);
+            var newData = [];
+
+            
+                dbData.forEach(function(topic){
+                    var id = topic.id;
+                    
+                        db.get('SELECT COUNT(comment),topics.title, topics.username, topics.post_date, topics.hi_fives FROM comments INNER JOIN topics ON comments.topic_id = topics.id WHERE comments.topic_id=?', id, function(err, row){
+                            if (err){
+                                console.log(err);
+
+                            } else {
+                                newData.push(row);
+                                //console.log(newData);
+
+                                if (newData.length === dbData.length){
+                                var rendered = ejs.render(html, {newData: newData});
+                                res.send(rendered);
+                                }
+                            }
+                        });
+                });       
+            }                       
+    });     
 });
 
 app.get('/topics/:id', function(req, res){
@@ -50,25 +67,46 @@ app.get('/topics/:id', function(req, res){
     // be added to the topic
     var html = fs.readFileSync('./views/show.html', 'utf8');
     var id = req.params.id;
+    //console.log(id);
 
     db.get('SELECT * FROM topics WHERE id=?', id, function(err, row){
         if (err){
             console.log(err);
 
         } else {
-            var dbData = row;
-        
-            var rendered = ejs.render(html, dbData);
-            res.send(rendered);
+             var dbData = row;
+             //console.log(row);
+
+            db.all('SELECT * FROM comments WHERE topic_id=?', id, function(err, rows){
+               
+                var comments = rows;
+
+                //console.log(comments);
+                var rendered = ejs.render(html, {comments: comments, dbData: dbData});
+                res.send(rendered);
+            });            
         }
     });
+
+    // db.all('SELECT * FROM topics INNER JOIN comments ON topics.id = comments.topic_id WHERE comments.topic_id=?', id, function(err, rows){
+    //     if (err){
+    //         console.log(err);
+
+    //     } else {
+    //         var dbData = rows;
+    //         console.log(dbData);
+            
+    //         // var rendered = ejs.render(html, dbData);
+    //         res.send(html);
+    //     }
+    // });
 });
 
 app.post('/topics', function(req, res){
     var title = req.body.title;
     var username = req.body.username;
     //When they click CARD IT button, INSERT the user info into the Topics database table
-    db.run('INSERT INTO topics (title, username) VALUES (?, ?)', title, username, function(err){
+    db.run('INSERT INTO topics (title, username, hi_fives) VALUES (?, ?, ?)', title, username, 0, function(err){
         if (err){
             console.log(err);
 
@@ -78,8 +116,44 @@ app.post('/topics', function(req, res){
     });
 });
 
+app.post('/comments', function(req, res){
+   var topic_id = req.body.topic_id;
+   var username = req.body.username;
+   var comment = req.body.comment;
+
+   db.run('INSERT INTO comments (topic_id, username, comment) VALUES (?, ?, ?)', topic_id, username, comment, function(err){
+        if (err){
+            console.log(err);
+
+        } else {
+            var topicId = req.body.topic_id;
+            res.redirect('/topics/'+topicId);
+        }
+   });
+});
 
 
+app.put('/topics/:id/edit', function(req, res){
+    var topic_id = req.params.id;
+    db.get('SELECT hi_fives FROM topics WHERE id=?', topic_id, function(err, row){
+        if (err){
+            console.log(err);
+
+        } else {
+            var currentHiFiveCount = row.hi_fives;
+            //console.log(currentHiFiveCount);
+
+            var updatedCount = currentHiFiveCount + 1;
+            //console.log(updatedCount);
+
+            db.run('UPDATE topics SET hi_fives=? WHERE id=?', updatedCount, topic_id, function(err){
+                if (err){
+                    console.log(err);
+                }
+            });      
+        }
+    });
+});
 
 
 
