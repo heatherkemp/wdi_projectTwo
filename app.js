@@ -49,7 +49,8 @@ app.get('/', function(req, res){
                             } else {
                                 newData.push(row);
                                 //console.log(newData);
-
+                                
+                                //adds a conditional to prevent rendered from running until the iteration is done.
                                 if (newData.length === dbData.length){
                                 var rendered = ejs.render(html, {newData: newData});
                                 res.send(rendered);
