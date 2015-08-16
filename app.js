@@ -6,6 +6,7 @@ var ejs = require('ejs');
 var sqlite3 = require('sqlite3');
 var db = new sqlite3.Database('forum.db');
 app.use(express.static('public'));
+var request = require('request');
 
 
 //Middleware
@@ -35,32 +36,9 @@ app.get('/', function(req, res){
         } else {
             
             var dbData = rows;
-            //console.log(dbData);
-            var newData = [];
-
-            
-                dbData.forEach(function(topic){
-                    var id = topic.id;
-                    console.log(id);
-                    
-                        db.get('SELECT topics.id, topics.title, topics.username, topics.post_date, topics.hi_fives, COUNT(comment) FROM comments INNER JOIN topics ON comments.topic_id = topics.id WHERE comments.topic_id=?', id, function(err, row){
-                            if (err){
-                                console.log(err);
-
-                            } else {
-                                console.log(row);
-                                newData.push(row);
-                                //console.log(newData);
-
-                                //adds a conditional to prevent rendered from running until the iteration is done.
-                                if (newData.length === dbData.length){
-                                var rendered = ejs.render(html, {newData: newData});
-                                res.send(rendered);
-                                }
-                            }
-                        });
-                });       
-            }                       
+            var rendered = ejs.render(html, {dbData: dbData});
+            res.send(rendered);
+        }                       
     });     
 });
 
@@ -91,51 +69,82 @@ app.get('/topics/:id', function(req, res){
         }
     });
 
-    // db.all('SELECT * FROM topics INNER JOIN comments ON topics.id = comments.topic_id WHERE comments.topic_id=?', id, function(err, rows){
-    //     if (err){
-    //         console.log(err);
-
-    //     } else {
-    //         var dbData = rows;
-    //         console.log(dbData);
-            
-    //         // var rendered = ejs.render(html, dbData);
-    //         res.send(html);
-    //     }
-    // });
 });
 
 app.post('/topics', function(req, res){
+    //Uses Telize API to get location info on post
+    request.get('http://www.telize.com/geoip', function(error, response, body){
+    var locationData = JSON.parse(body);
+    var city = locationData.city;
+    var state = locationData.region_code;
+    var userLocation = city + ", " + state;
+    //console.log(userLocation);
+
     var title = req.body.title;
     var username = req.body.username;
     //When they click CARD IT button, INSERT the user info into the Topics database table
-    db.run('INSERT INTO topics (title, username, hi_fives) VALUES (?, ?, ?)', title, username, 0, function(err){
-        if (err){
-            console.log(err);
+        db.run('INSERT INTO topics (title, username, hi_fives, comment_count, user_location) VALUES (?, ?, ?, ?, ?)', title, username, 0, 0, userLocation, function(err){
+            if (err){
+                console.log(err);
 
-        } else {
-            res.redirect('/');
-        }
+            } else {
+                res.redirect('/');
+            }
+        });
     });
 });
 
 app.post('/comments', function(req, res){
-   var topic_id = req.body.topic_id;
-   var username = req.body.username;
-   var comment = req.body.comment;
+    request.get('http://www.telize.com/geoip', function(error, response, body){
+    var locationData = JSON.parse(body);
+    var city = locationData.city;
+    var state = locationData.region_code;
+    var userLocation = city + ", " + state;
+    //console.log(userLocation);
 
-   db.run('INSERT INTO comments (topic_id, username, comment) VALUES (?, ?, ?)', topic_id, username, comment, function(err){
-        if (err){
-            console.log(err);
+    var avatars = [ 'http://orig13.deviantart.net/b28b/f/2011/156/9/d/pikachu_avatar_or_icon_by_pheonixmaster1-d3i6as0.png', 'https://v.cdn.vine.co/r/avatars/FADE099E3B1185834932417728512_363338cac24.1.5.jpg?versionId=b3iMnUE8Q_wM7TXH2Vad89xvPKhcWxSX', 'http://www.outerheavenforums.com/customavatars/avatar2533_22.gif', 'http://static.tumblr.com/ntl1ymx/uexmc1yck/ss-avatar1.png', 'http://0.gravatar.com/blavatar/21c9c075edae691ac485eed243eb1709?s=200', 'http://0.gravatar.com/avatar/89dbdde5e9d339596a4b2f4e866508f6?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=PG', 'https://2.gravatar.com/avatar/52a035e19fce4834c7d8a8dba78edb96?s=200&d=http%3A%2F%2Fs1.wp.com%2Fi%2Flogo%2Fwhite-gray-80.png&r=G', 'http://1.gravatar.com/avatar/541d9e261b493dcf976714a53e4668ab?s=200&d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G', 'http://0.gravatar.com/avatar/c8fa1abc6a88daf04e26ed3fdb6041ef?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=PG', 'http://1.gravatar.com/avatar/3dd15654f9190f6302680659d6f5d8b2?s=200&d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G', 'http://0.gravatar.com/avatar/fc7e09e3fda5812c326a4b1cfbdf945c?s=200&d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D200&r=G', 'http://logopond.com/avatar/33925/gorillablu_avatar200x200_low.jpg', 'https://forums.tibiawindbot.com/image.php?u=17482&dateline=1401028751', 'http://static.planetminecraft.com/files/avatar/878766.png', 'http://cdn.cakecentral.com/avatars/d/d7/909930_wisebaker_6JtT_200x200.jpg' ];
 
-        } else {
-            var topicId = req.body.topic_id;
-            res.redirect('/topics/'+topicId);
-        }
-   });
+    var userAvatar = avatars[Math.floor(Math.random() * avatars.length)];
+    //console.log(userAvatar); 
+
+       var topic_id = req.body.topic_id;
+       var username = req.body.username;
+       var comment = req.body.comment;
+
+       db.run('INSERT INTO comments (topic_id, username, comment, user_location, user_avatar) VALUES (?, ?, ?, ?, ?)', topic_id, username, comment, userLocation, userAvatar, function(err){
+            if (err){
+                console.log(err);
+
+            } else {
+                var topicId = req.body.topic_id;
+
+                db.get('SELECT comment_count FROM topics WHERE id=?', topic_id, function(err, row){
+                    if (err){
+                        console.log(err);
+
+                    } else {
+                        var currentCommentCount = row.comment_count;
+                        //console.log(currentCommentCount);
+
+                        var updatedCount = currentCommentCount + 1;
+                        //console.log(updatedCount);
+
+                        db.run('UPDATE topics SET comment_count=? WHERE id=?', updatedCount, topic_id, function(err){
+                            if (err){
+                                console.log(err);
+                            } else {
+                                res.redirect('/topics/'+topicId);
+                            }
+                        });      
+                    }
+                });
+            }
+       });
+
+  });
 });
 
-
+//This is the counter for updating Hi-Five count
 app.put('/topics/:id/edit', function(req, res){
     var topic_id = req.params.id;
     db.get('SELECT hi_fives FROM topics WHERE id=?', topic_id, function(err, row){

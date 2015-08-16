@@ -37,7 +37,7 @@
         </div>
     </div> <!-- end modal div -->
        <div class="cardContainer">
-        <% newData.forEach(function(topic){ %>
+        <% dbData.forEach(function(topic){ %>
             <a class="cardLink" href="/topics/<%= topic.id %>">
                 <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3 pure-u-xl-1-4">
                     <div class="topicCard content">
@@ -46,7 +46,7 @@
                     </div>
                     <div class="stats">
                         <span id="hiFivesCount"><i class="fa fa-hand-paper-o"></i> <%= topic.hi_fives %></span>
-                        <span id="commentCount"><i class="fa fa-comment-o"></i> <%= topic['COUNT(comment)'] %></span>
+                        <span id="commentCount"><i class="fa fa-comment-o"></i> <%= topic.comment_count %></span>
                     </div>
                   </div><!-- end content div -->
                 </div>

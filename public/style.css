@@ -167,7 +167,7 @@ label {
     min-height: 150px;
     background: white;
     //padding: 10px;
-    margin: 15px auto;
+    margin: 10px;
     -webkit-box-shadow: 0px 5px 14px 5px rgba(50, 50, 50, 0.70);
     -moz-box-shadow:    0px 5px 14px 5px rgba(50, 50, 50, 0.70);
     box-shadow:         0px 5px 14px 5px rgba(50, 50, 50, 0.70);
@@ -191,10 +191,36 @@ label {
 
 .cardView {
     background: white;
-    padding: 25px;
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px 20px 0px;
+    -webkit-box-shadow: 0px 5px 14px 5px rgba(50, 50, 50, 0.70);
+    -moz-box-shadow:    0px 5px 14px 5px rgba(50, 50, 50, 0.70);
+    box-shadow:         0px 5px 14px 5px rgba(50, 50, 50, 0.70);
 }
 
-#submitComment {
+#titleTopic {
+    color: teal;
+    font-weight: 400;
+    margin-top: 10px;
+}
+
+.comments {
+    margin: 30px 0px;
+}
+
+#userCommentForm {
+    padding-bottom: 25px;
+    margin: 30px 0px;
+}
+
+#chatterTitle {
+    margin: 0px;
+    color: teal;
+    font-weight: 400;
+}
+
+#submitComment, #hiFive {
     font-family: 'Josefin Sans', sans-serif;
     background-color: teal;
     color: white;
@@ -205,9 +231,35 @@ label {
 
 }
 
-#theComments {
-
+.theComments {
+    line-height: 1.2em;
 }
+
+.commentorAvatar {
+    width: 32px;
+    height: 32px;
+}
+
+.commentorInfo {
+    color: teal;
+    font-weight: 400;
+}
+
+#usernameLabel {
+    margin: 20px 0px;
+}
+
+#userCommentLabel {
+    margin: 20px 0px;
+    display: block;
+}
+
+#userComment {
+    display: block;
+    border: 1px solid #ccc;
+    margin: 10px 0px 25px;
+}
+
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
 
@@ -226,15 +278,23 @@ label {
 
 @media only screen and (min-width: 768px) and (max-width: 959px) {
 
+.pure-u-md-1-2 {
+    width: 49%;
+}
+
 #main {
     float: left;
     width: 50%;
 }
 
-#newTopicButton {
-    /*float: right;
-    margin: 0px;
-    margin-top: -40px;*/
+#mainMenu {
+    width: 50%;
+}
+
+#newTopicButton, #backToMainMenu {
+    width: 25%;
+    margin: 60px 15px;
+    float: right;
     }
 }
 
@@ -252,9 +312,19 @@ label {
 
 @media only screen and (min-width: 960px) {
 
-#newTopicButton {
-    //float: right;
-    //margin-top: -40px;
+.pure-u-lg-1-3 {
+    width: 32.3333%;
+}
+
+#main {
+    float: left;
+    width: 50%;
+}
+
+#newTopicButton, #backToMainMenu {
+    width: 25%;
+    margin: 60px 15px;
+    float: right;
     }
 
 /* Modal for Desktop size */
@@ -277,21 +347,18 @@ label {
     background-color: teal;
     color: white;
 }
-/*
-input, label {
-    display: block;
-    font-family: 'Josefin Sans', sans-serif;
-}
 
-label {
-    margin: 20px;
-}
+.cardContainer {
+    width: 95%;
+    margin: 0px auto;
 
-#makeCard {
-    font-family: 'Josefin Sans', sans-serif;
-    background-color: teal;
-    color: white;
-    margin: 20px;
-} */
 
 }
+
+@media only screen and (min-width: 1280px) {
+
+.pure-u-xl-1-4 {
+    width: 24%;
+   } 
+}
+} 

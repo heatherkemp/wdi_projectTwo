@@ -18,23 +18,26 @@
         <div class="pure-u-1">
             <div id="header">
                 <div id="main"><img src="/logo.png" alt=""></div>
-                    <form method="GET" action="/">
+                    <form id="mainMenu" method="GET" action="/">
                         <button id="backToMainMenu" class="pure-button" type="submit">Back to Main Menu</button>
                     </form>
             </div>
         </div>
 
-        <div class="cardView pure-u-1">
-            <form method="POST" action="/topics/<%= dbData.id %>/edit?_method=PUT">
+        <div class="pure-u-1">
+          <div class="cardView">
+            
+             <h2 id="titleTopic"><%= dbData.title %></h2>
+            <p class="authorInfo">posted <%= dbData.post_date %> by <%= dbData.username %> in <span class="authorLocation"><%= dbData.user_location %> </span></p>
+
+            <form  method="POST" action="/topics/<%= dbData.id %>/edit?_method=PUT">
                 <button id="hiFive" name="hiFiveHit" type="submit" class="pure-button"><i class="fa fa-hand-paper-o"></i> Hi-Five Topic</button>
             </form>
-             <h2 id="titleTopic"><%= dbData.title %></h2>
-            <p class="authorInfo">posted <%= dbData.post_date %> by <%= dbData.username %> </p>
 
             <div class="comments">
-                <h3>Comments:</h3>
+                <h3 id="chatterTitle">The Chatter:</h3>
                 <% comments.forEach(function(comment){ %>
-                    <p class="theComments"><span class="commentorInfo"><%= comment.username %> &nbsp; <%= comment.comment_date %></span> &nbsp;
+                    <p class="theComments"><img class="commentorAvatar" src="<%= comment.user_avatar %>" /> <span class="commentorInfo"><%= comment.username %></span>  &nbsp; posted on <%= comment.comment_date %>, <span class="commentorLocation"><%= comment.user_location %></span>  &nbsp;
                         <%= comment.comment %>
                     </p>
                 <% }); %>
@@ -42,13 +45,15 @@
             </div>
             
             <form id="userCommentForm" method="POST" action="/comments">
+                <h3 id="chatterTitle">Add Chatter: </h3>
                 <input type="hidden" name="topic_id" value="<%= dbData.id %>">
-                <label for="username">Username: <input id="username" type="text" name="username"></label>
-                <label for="userComment">Comment: <textarea name="comment" id="userComment" cols="30" rows="8"></textarea></label>
+                <label id="usernameLabel" for="username">Username: <input id="username" type="text" name="username"></label>
+                <label id="userCommentLabel" for="userComment">Your Chatter: <textarea name="comment" id="userComment" cols="30" rows="8"></textarea></label>
 
-                <button id="submitComment" type="submit" class="pure-button">Submit Comment</button>
+                <button id="submitComment" type="submit" class="pure-button">Submit Chatter</button>
             </form>
-        </div><!-- end cardView div -->
+           </div><!-- end cardView div -->
+        </div><!-- end pure-u-1 div -->
     </div> <!-- end pure-g div -->    
 </body>
 </html>
