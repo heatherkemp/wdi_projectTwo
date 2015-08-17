@@ -208,6 +208,10 @@ label {
     box-shadow:         0px 5px 14px 5px rgba(50, 50, 50, 0.70);
 }
 
+#hand {
+    color: white;
+}
+
 #titleTopic {
     color: teal;
     font-weight: 400;
