@@ -31,7 +31,7 @@
             <p class="authorInfo">posted <%= dbData.post_date %> by <%= dbData.username %> in <span class="authorLocation"><%= dbData.user_location %> </span></p>
 
             <form  method="POST" action="/topics/<%= dbData.id %>/edit?_method=PUT">
-                <button id="hiFive" name="hiFiveHit" type="submit" class="pure-button"><i class="fa fa-hand-paper-o"></i> Hi-Five Topic</button>
+                <button id="hiFive" name="hiFiveHit" type="submit" class="pure-button"><i id="hand" class="fa fa-hand-paper-o"></i> Hi-Five Topic</button>
             </form>
 
             <div class="comments">
