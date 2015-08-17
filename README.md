@@ -70,3 +70,7 @@ put("/topics/:id/edit")
 ##Database Design
 
 ![alt text](./projTwo_databaseDesign.jpg "Database Design for Project Two")
+
+
+##Project Management:  Trello
+![alt text](./trello.jpg "Project Management Software")
