@@ -3,6 +3,9 @@
 ##Objective
 To create a forum application in which users can create discussion topics and receive comments and "Hi-Fives" on those topics from other users.
 
+###This project is hosted at:
+http://104.131.61.18:3000/
+
 ##User Stories
 Users Can Do the Following:
   1. Create a discussion topic.
