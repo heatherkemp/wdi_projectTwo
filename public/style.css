@@ -161,6 +161,15 @@ label {
     opacity: .75;
 }
 
+.stats {
+    color: black;
+}
+
+#titleOfTopic, .fa {
+    color: teal;
+}
+
+
 .topicCard {
     //width: 280px;
     position: relative;
